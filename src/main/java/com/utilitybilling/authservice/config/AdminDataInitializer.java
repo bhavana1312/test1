@@ -13,19 +13,27 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class AdminDataInitializer{
+public class AdminDataInitializer {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Bean
-    public CommandLineRunner seedAdmin(){
-        return args->{
-            if(!userRepository.existsByUsername("admin")){
-                User admin=User.builder()
+    public CommandLineRunner seedAdmin() {
+        return args -> {
+            if (!userRepository.existsByUsername("admin")) {
+
+                String rawPassword = System.getenv("ADMIN_INITIAL_PASSWORD");
+
+                if (rawPassword == null || rawPassword.isBlank()) {
+                    throw new IllegalStateException(
+                        "ADMIN_INITIAL_PASSWORD environment variable is not set");
+                }
+
+                User admin = User.builder()
                         .username("admin")
                         .email("22071a66d9@vnrvjiet.in")
-                        .password(encoder.encode("Admin@123"))
+                        .password(encoder.encode(rawPassword))
                         .roles(List.of("ROLE_ADMIN"))
                         .enabled(true)
                         .createdAt(Instant.now())
@@ -37,3 +45,4 @@ public class AdminDataInitializer{
         };
     }
 }
+
