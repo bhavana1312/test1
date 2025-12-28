@@ -16,6 +16,15 @@
         <spring.boot.version>3.2.1</spring.boot.version>
         <spring.cloud.version>2023.0.0</spring.cloud.version>
         <sonar.organization>bhavana1312</sonar.organization>
+        <sonar.coverage.exclusions>
+        **/model/**,
+        **/dto/**,
+        **/entity/**,
+        **/config/**,
+        **/exception/**,
+        **/constants/**,
+        **/*Application.java
+    </sonar.coverage.exclusions>
     </properties>
 
     <!-- Dependency Management -->
